@@ -42,10 +42,22 @@
                         Settings
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger" href="#">
-                        <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>
-                        Logout
-                    </a>
+                    <a class="dropdown-item text-danger" href="#"
+   onclick="event.preventDefault(); document.getElementById('dropdown-logout-form').submit();">
+
+    <i class="fas fa-sign-out-alt fa-sm fa-fw me-2 text-gray-400"></i>
+    Logout
+
+</a>
+
+<form id="dropdown-logout-form"
+      action="{{ route('admin.logout') }}"
+      method="POST"
+      class="d-none">
+
+    @csrf
+
+</form>
                 </div>
             </li>
         </ul>

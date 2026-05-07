@@ -42,21 +42,23 @@
         </div>
         <div class="card-body login-body">
             
-            {{-- Example error alert structure --}}
-            {{-- 
+            @if ($errors->any())
             <div class="alert alert-danger" role="alert">
-                Invalid credentials.
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
-            --}}
+            @endif
 
-            <form action="{{ route('admin.dashboard') }}" method="GET">
-                {{-- Example: Usually uses POST to a login route, but here we redirect to dashboard directly for preview purposes --}}
+            <form action="{{ route('admin.login.submit') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="email" class="form-label text-muted small">Email Address</label>
                     <div class="input-group">
                         <span class="input-group-text bg-white"><i class="fas fa-envelope text-muted"></i></span>
-                        <input type="email" class="form-control border-start-0 ps-0" id="email" name="email" placeholder="admin@example.com" required autofocus>
+                        <input type="email" class="form-control border-start-0 ps-0" id="email" name="email" value="{{ old('email') }}" placeholder="admin@example.com" required autofocus>
                     </div>
                 </div>
                 
