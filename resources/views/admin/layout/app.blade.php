@@ -12,7 +12,7 @@
         body {
             background-color: #f8f9fa;
         }
-        
+
         .wrapper {
             display: flex;
             width: 100%;
@@ -33,9 +33,11 @@
         }
 
         #sidebar .sidebar-header {
+
             padding: 20px;
             background: #1a1e21;
         }
+
 
         #sidebar ul.components {
             padding: 20px 0;
@@ -104,7 +106,7 @@
             <div class="main-content-area">
                 @yield('content')
             </div>
-            
+
             @include('admin.layout.footer')
         </div>
     </div>
