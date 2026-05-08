@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\AnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,6 @@ Route::prefix('admin')->group(function () {
     Route::resource('banners', BannerController::class);
     Route::resource('users', UserController::class);
     Route::resource('coupons', CouponController::class);
+
+    Route::get('/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
 });

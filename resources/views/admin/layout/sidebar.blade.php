@@ -43,7 +43,7 @@
 
         <div class="nav-label">System</div>
 
-        <a href="#" class="sidebar-link">
+        <a href="{{ route('admin.analytics') }}" class="sidebar-link {{ request()->routeIs('admin.analytics') ? 'active' : '' }}">
             <i class="fas fa-chart-line"></i>
             <span>Analytics</span>
         </a>

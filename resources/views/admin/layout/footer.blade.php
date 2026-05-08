@@ -20,12 +20,6 @@
                     <li class="nav-item">
                         <a href="#" class="nav-link p-0 text-muted small hover-primary transition-all">Privacy</a>
                     </li>
-                    <li class="nav-item ms-md-3">
-                        <div class="d-flex gap-2">
-                            <a href="#" class="text-muted"><i class="fab fa-github small"></i></a>
-                            <a href="#" class="text-muted"><i class="fab fa-twitter small"></i></a>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </div>

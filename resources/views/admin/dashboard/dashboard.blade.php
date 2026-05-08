@@ -93,8 +93,8 @@
         <div class="card border-0 p-4 h-100">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h5 class="fw-bold mb-1">Activity Overview</h5>
-                    <p class="text-muted small mb-0">System data trends</p>
+                    <h5 class="fw-bold mb-1">Monthly Revenue Overview</h5>
+                    <p class="text-muted small mb-0">Total earnings per month</p>
                 </div>
             </div>
             <div style="height: 300px;">
@@ -176,10 +176,9 @@
             </tbody>
         </table>
     </div>
-</div>
     <div class="card-footer bg-white border-0 p-4">
         <div class="d-flex justify-content-between align-items-center">
-            <span class="small text-muted">Showing 2 of 124 records</span>
+            <span class="small text-muted">Showing {{ $recent_products->count() }} of {{ $stats['total_products'] }} records</span>
             <nav>
                 <ul class="pagination pagination-sm mb-0">
                     <li class="page-item disabled"><a class="page-link border-0" href="#">Previous</a></li>
@@ -199,17 +198,18 @@
     new Chart(salesCtx, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: {!! json_encode($revenue_data['labels']) !!},
             datasets: [{
-                label: 'Sales',
-                data: [3000, 4500, 3800, 5200, 6100, 5800, 7200, 8100, 7800, 9500, 10200, 12500],
+                label: 'Monthly Revenue ($)',
+                data: {!! json_encode($revenue_data['data']) !!},
                 borderColor: '#4361ee',
                 backgroundColor: 'rgba(67, 97, 238, 0.1)',
                 fill: true,
                 tension: 0.4,
                 borderWidth: 3,
-                pointRadius: 0,
+                pointRadius: 4,
                 pointHoverRadius: 6,
+                pointBackgroundColor: '#4361ee'
             }]
         },
         options: {
