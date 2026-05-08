@@ -18,11 +18,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\DashboardController;
+
 // Admin Panel Routes
 Route::prefix('admin')->group(function () {
-    Route::get('/login', function () {
-        return view('admin.auth.login');
-    })->name('admin.login');
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('admin.login.submit');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 

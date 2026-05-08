@@ -39,6 +39,7 @@
                 <i class="fas fa-users"></i>
                 <span>Users</span>
             </a>
+<<<<<<< rohit
         </div>
 
         <div class="nav-label">System</div>
@@ -60,4 +61,16 @@
             <span>View Site</span>
         </a>
     </div>
+=======
+        </li>
+        <li>
+            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="fas fa-sign-out-alt fa-fw me-2"></i> Logout
+            </a>
+            <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
+        </li>
+    </ul>
+>>>>>>> main
 </nav>
