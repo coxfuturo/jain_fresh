@@ -1,0 +1,21 @@
+$kind: http-request
+url: http://127.0.0.1:8000/api/register
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"name\" : \"vikas\",\r
+
+    \    \"email\" : \"vikas12@gmain.com\",\r
+
+    \    \"phone\" : \"8787878787\",\r
+
+    \    \"address\" : \"noida\",\r
+
+    \    \"gender\" : \"male\",\r
+
+    \    \"password\" : \"123456\",\r
+
+    \    "
+order: 2000

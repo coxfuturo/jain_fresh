@@ -3,10 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Admin Dashboard')</title>
+    <title>@yield('title', 'Admin Dashboard') | Zain Fresh</title>
+    
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- FontAwesome Icons -->
+<<<<<<< rohit
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom Modern Admin CSS -->
+    <link rel="stylesheet" href="{{ asset('css/admin-custom.css') }}">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+=======
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -68,63 +79,55 @@
             background: #0d6efd;
             border-left: 4px solid #fff;
         }
+>>>>>>> main
 
-        #content {
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.3s;
-        }
-
-        .main-content-area {
-            flex: 1;
-            padding: 20px;
-        }
-
-        @media (max-width: 768px) {
-            #sidebar {
-                margin-left: -250px;
-            }
-            #sidebar.active {
-                margin-left: 0;
-            }
-        }
-    </style>
     @stack('styles')
 </head>
 <body>
 
     <div class="wrapper">
-        <!-- Sidebar  -->
+        
+        <!-- Sidebar -->
         @include('admin.layout.sidebar')
 
-        <!-- Page Content  -->
+        <!-- Main Content -->
         <div id="content">
+            
+            <!-- Header -->
             @include('admin.layout.header')
 
-            <div class="main-content-area">
+            <!-- Main Page Content -->
+            <div class="container-fluid p-4">
                 @yield('content')
             </div>
 
+<<<<<<< rohit
+            <!-- Footer -->
+=======
+>>>>>>> main
             @include('admin.layout.footer')
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Sidebar Toggle Script -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var sidebarCollapse = document.getElementById('sidebarCollapse');
-            var sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const content = document.getElementById('content');
 
-            if (sidebarCollapse) {
-                sidebarCollapse.addEventListener('click', function () {
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
                     sidebar.classList.toggle('active');
+                    content.classList.toggle('active');
                 });
             }
         });
     </script>
+
     @stack('scripts')
 </body>
 </html>

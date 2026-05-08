@@ -1,0 +1,269 @@
+/* 
+    Premium Admin Dashboard - Custom Styles 
+    Built on top of Bootstrap 5
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary: #4361ee;
+    --primary-light: #4361ee1a;
+    --secondary: #80868b;
+    --success: #00ab55;
+    --info: #00b8d9;
+    --warning: #ffab00;
+    --danger: #ff5630;
+    --dark: #212b36;
+    --bg-body: #f9fafb;
+    --sidebar-bg: #ffffff;
+    --card-shadow: 0 0 2px 0 rgba(145, 158, 171, 0.2), 0 12px 24px -4px rgba(145, 158, 171, 0.12);
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-color: var(--bg-body);
+    color: var(--dark);
+    font-size: 0.9375rem;
+    overflow-x: hidden;
+}
+
+/* Layout Structure */
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    overflow-x: hidden;
+}
+
+#sidebar {
+    min-width: 280px;
+    max-width: 280px;
+    background: var(--sidebar-bg);
+    color: var(--dark);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    border-right: 1px dashed rgba(145, 158, 171, 0.24);
+}
+
+#sidebar.active {
+    margin-left: -280px;
+}
+
+#content {
+    width: calc(100% - 280px);
+    margin-left: 280px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#content.active {
+    width: 100%;
+    margin-left: 0;
+}
+
+/* Sidebar Styling */
+.sidebar-header {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 3px solid var(--primary);
+}
+
+.sidebar-logo-icon {
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    box-shadow: 0 8px 16px 0 rgba(67, 97, 238, 0.24);
+}
+
+.sidebar-nav {
+    padding: 0 16px;
+}
+
+.nav-label {
+    padding: 24px 16px 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #637381;
+    text-transform: uppercase;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: #637381;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.2s;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.sidebar-link i {
+    width: 24px;
+    font-size: 1.1rem;
+    margin-right: 12px;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(145, 158, 171, 0.08);
+    color: var(--dark);
+}
+
+.sidebar-link.active {
+    background-color: var(--primary-light);
+    color: var(--primary);
+}
+
+/* Header Styling */
+.top-navbar {
+    height: 72px;
+    padding: 0 24px;
+    background: rgba(249, 250, 251, 0.8);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.search-bar {
+    background: #eff2f5;
+    border-radius: 12px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    width: 300px;
+}
+
+.search-bar input {
+    background: transparent;
+    border: none;
+    padding-left: 10px;
+    outline: none;
+    width: 100%;
+}
+
+/* Card Modernization */
+.card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s;
+}
+
+.card-stats {
+    padding: 24px;
+}
+
+.stats-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 1.5rem;
+}
+
+/* Table Modernization */
+.table-container {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: #f4f6f8;
+    border: none;
+    padding: 16px;
+    font-size: 0.85rem;
+    color: #637381;
+}
+
+.table tbody td {
+    padding: 16px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+/* Status Badges */
+.badge-soft-success {
+    background: #e6f7ef;
+    color: #00ab55;
+    border: none;
+    padding: 6px 12px;
+}
+
+.badge-soft-warning {
+    background: #fff8e6;
+    color: #ffab00;
+}
+
+.badge-soft-info {
+    background: #e6f8fb;
+    color: #00b8d9;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    #sidebar {
+        margin-left: -280px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #content {
+        margin-left: 0;
+        width: 100%;
+    }
+    .search-bar {
+        display: none;
+    }
+}
+
+/* Footer Styles */
+.admin-footer {
+    border-top: 1px solid rgba(0,0,0,0.05) !important;
+    background-color: #fff;
+    margin-top: auto;
+    width: 100%;
+    display: block;
+}
+
+.extra-small {
+    font-size: 0.65rem;
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+.hover-primary:hover {
+    color: #4361ee !important;
+    transform: translateY(-1px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#content .container-fluid {
+    animation: fadeIn 0.5s ease-out forwards;
+}

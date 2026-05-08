@@ -1,0 +1,8 @@
+$kind: http-request
+url: https://eshops.asyscraft.com/app/v1/api/totalDownline
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NTY4OTU0MjUsImlzcyI6ImVzaG9wIiwiZXhwIjoxNzg4NDMxNDI1LCJ1c2VyX2lkIjoiMiJ9.WaQFG3rykhZz7Q1tyUlnB8dmqlBBpZTovRj56_7TiEo
+order: 5000

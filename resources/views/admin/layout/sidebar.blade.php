@@ -1,48 +1,67 @@
 <nav id="sidebar">
-    <div class="sidebar-header d-flex align-items-center justify-content-between">
-        <h4 class="mb-0 px-2 fw-bold text-white">Zain Fresh</h4>
-        {{-- Close button for mobile --}}
-        <button type="button" class="btn btn-sm btn-outline-light d-md-none" id="sidebarCloseBtn" onclick="document.getElementById('sidebar').classList.toggle('active');">
-            <i class="fas fa-times"></i>
-        </button>
+    <div class="sidebar-header">
+        <div class="sidebar-logo-icon">
+            <img src= {{asset('logoImg/logo.png') }} alt="" height="50" width="50">
+        </div>
+        <h5 class="mb-0 fw-bold">Zain Fresh</h5>
     </div>
 
-    <ul class="list-unstyled components">
-        <li class="active">
-            <a href="{{ route('admin.dashboard') }}">
-                <i class="fas fa-tachometer-alt fa-fw me-2"></i> Dashboard
-            </a>
-        </li>
-        <li>
-            <a href="#usersSubmenu" data-bs-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                <i class="fas fa-users fa-fw me-2"></i> Users
-            </a>
-            <ul class="collapse list-unstyled" id="usersSubmenu">
-                <li>
-                    <a href="#" class="ps-5"><i class="fas fa-caret-right me-2"></i>All Users</a>
-                </li>
-                <li>
-                    <a href="#" class="ps-5"><i class="fas fa-caret-right me-2"></i>Add User</a>
-                </li>
-            </ul>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fas fa-cogs fa-fw me-2"></i> Settings
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fas fa-chart-bar fa-fw me-2"></i> Reports
-            </a>
-        </li>
-    </ul>
+    <div class="sidebar-nav">
+        <div class="nav-label">Main Menu</div>
+        
+        <a href="{{ route('admin.dashboard') }}" class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+            <i class="fas fa-th-large"></i>
+            <span>Dashboard</span>
+        </a>
 
-    <ul class="list-unstyled">
-        <li>
-            <a href="{{ url('/') }}" target="_blank">
-                <i class="fas fa-external-link-alt fa-fw me-2"></i> View Site
+        <a href="{{ route('banners.index') }}" class="sidebar-link {{ request()->routeIs('banners.*') ? 'active' : '' }}">
+            <i class="fas fa-image"></i>
+            <span>Banners</span>
+        </a>
+
+        <a href="{{ route('categories.index') }}" class="sidebar-link {{ request()->routeIs('categories.*') ? 'active' : '' }}">
+            <i class="fas fa-list"></i>
+            <span>Categories</span>
+        </a>
+
+        <a href="{{ route('products.index') }}" class="sidebar-link {{ request()->routeIs('products.*') ? 'active' : '' }}">
+            <i class="fas fa-box"></i>
+            <span>Products</span>
+        </a>
+
+        <a href="{{ route('coupons.index') }}" class="sidebar-link {{ request()->routeIs('coupons.*') ? 'active' : '' }}">
+            <i class="fas fa-ticket-alt"></i>
+            <span>Coupons</span>
+        </a>
+
+        <div class="dropdown">
+            <a href="{{ route('users.index') }}" class="sidebar-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
             </a>
+<<<<<<< rohit
+        </div>
+
+        <div class="nav-label">System</div>
+
+        <a href="#" class="sidebar-link">
+            <i class="fas fa-chart-line"></i>
+            <span>Analytics</span>
+        </a>
+
+        <a href="#" class="sidebar-link">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+    </div>
+
+    <div class="mt-auto p-4 border-top">
+        <a href="{{ url('/') }}" target="_blank" class="btn btn-light w-100 rounded-3 text-start d-flex align-items-center gap-2">
+            <i class="fas fa-external-link-alt small"></i>
+            <span>View Site</span>
+        </a>
+    </div>
+=======
         </li>
         <li>
             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -53,4 +72,5 @@
             </form>
         </li>
     </ul>
+>>>>>>> main
 </nav>

@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BannerController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\CouponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +28,8 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::apiResource('banners', BannerController::class);
 Route::apiResource('categories', CategoryController::class);
+Route::apiResource('products', ProductController::class);
+
+// coupne card
+Route::apiResource('coupons', CouponController::class);
+Route::post('apply-coupon', [CouponController::class, 'applyCoupon']);
