@@ -9,7 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     
     <!-- FontAwesome Icons -->
-<<<<<<< rohit
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- Custom Modern Admin CSS -->
@@ -17,7 +16,6 @@
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-=======
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
@@ -34,8 +32,8 @@
         #sidebar {
             min-width: 250px;
             max-width: 250px;
-            background: #212529;
-            color: #fff;
+            background: #fcfcfc;
+            color: #000000;
             transition: all 0.3s;
         }
 
@@ -46,7 +44,7 @@
         #sidebar .sidebar-header {
 
             padding: 20px;
-            background: #1a1e21;
+            background: #fafafa;
         }
 
 
@@ -79,8 +77,7 @@
             background: #0d6efd;
             border-left: 4px solid #fff;
         }
->>>>>>> main
-
+</style
     @stack('styles')
 </head>
 <body>
@@ -100,11 +97,8 @@
             <div class="container-fluid p-4">
                 @yield('content')
             </div>
-
-<<<<<<< rohit
+            
             <!-- Footer -->
-=======
->>>>>>> main
             @include('admin.layout.footer')
         </div>
     </div>

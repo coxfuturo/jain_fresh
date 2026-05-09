@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\AnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\DashboardController;
-
 // Admin Panel Routes
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/login', [AuthController::class, 'login'])->name('admin.login.submit');
+     Route::post('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -34,4 +34,6 @@ Route::prefix('admin')->group(function () {
     Route::resource('banners', BannerController::class);
     Route::resource('users', UserController::class);
     Route::resource('coupons', CouponController::class);
+
+    Route::get('/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
 });

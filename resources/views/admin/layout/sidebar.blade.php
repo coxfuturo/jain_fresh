@@ -39,12 +39,11 @@
                 <i class="fas fa-users"></i>
                 <span>Users</span>
             </a>
-<<<<<<< rohit
         </div>
 
         <div class="nav-label">System</div>
 
-        <a href="#" class="sidebar-link">
+        <a href="{{ route('admin.analytics') }}" class="sidebar-link {{ request()->routeIs('admin.analytics') ? 'active' : '' }}">
             <i class="fas fa-chart-line"></i>
             <span>Analytics</span>
         </a>
@@ -61,7 +60,6 @@
             <span>View Site</span>
         </a>
     </div>
-=======
         </li>
         <li>
             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -72,5 +70,4 @@
             </form>
         </li>
     </ul>
->>>>>>> main
 </nav>
