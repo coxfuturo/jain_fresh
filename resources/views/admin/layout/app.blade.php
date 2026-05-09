@@ -32,8 +32,8 @@
         #sidebar {
             min-width: 250px;
             max-width: 250px;
-            background: #212529;
-            color: #fff;
+            background: #fcfcfc;
+            color: #000000;
             transition: all 0.3s;
         }
 
@@ -44,7 +44,7 @@
         #sidebar .sidebar-header {
 
             padding: 20px;
-            background: #1a1e21;
+            background: #fafafa;
         }
 
 
@@ -77,7 +77,7 @@
             background: #0d6efd;
             border-left: 4px solid #fff;
         }
-
+</style
     @stack('styles')
 </head>
 <body>
