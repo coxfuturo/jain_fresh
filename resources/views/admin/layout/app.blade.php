@@ -16,6 +16,67 @@
     
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .wrapper {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+            min-height: 100vh;
+        }
+
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: #212529;
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        #sidebar.active {
+            margin-left: -250px;
+        }
+
+        #sidebar .sidebar-header {
+
+            padding: 20px;
+            background: #1a1e21;
+        }
+
+
+        #sidebar ul.components {
+            padding: 20px 0;
+            border-bottom: 1px solid #343a40;
+        }
+
+        #sidebar ul p {
+            color: #fff;
+            padding: 10px;
+        }
+
+        #sidebar ul li a {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            display: block;
+            color: #adb5bd;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        #sidebar ul li a:hover {
+            color: #fff;
+            background: #343a40;
+        }
+
+        #sidebar ul li.active > a {
+            color: #fff;
+            background: #0d6efd;
+            border-left: 4px solid #fff;
+        }
 
     @stack('styles')
 </head>
@@ -36,7 +97,7 @@
             <div class="container-fluid p-4">
                 @yield('content')
             </div>
-
+            
             <!-- Footer -->
             @include('admin.layout.footer')
         </div>
