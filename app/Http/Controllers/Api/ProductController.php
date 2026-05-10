@@ -28,7 +28,7 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
 
-            $image = time().'.'.$request->image->extension();
+            $image = time() . '.' . $request->image->extension();
 
             $request->image->move(
                 public_path('uploads/products'),
@@ -88,7 +88,7 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
 
-            $image = time().'.'.$request->image->extension();
+            $image = time() . '.' . $request->image->extension();
 
             $request->image->move(
                 public_path('uploads/products'),
@@ -132,6 +132,40 @@ class ProductController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Product Deleted'
+        ]);
+    }
+
+    // similar product
+    public function similarProducts($id)
+    {
+
+        $product = Product::find($id);
+
+        if (!$product) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'Product Not Found'
+            ]);
+        }
+
+        $similarProducts = Product::where('category_id', $product->category_id)
+
+            ->where('id', '!=', $id)
+
+            ->latest()
+
+            ->take(10)
+
+            ->get();
+
+        return response()->json([
+
+            'status' => true,
+
+            'data' => $similarProducts
         ]);
     }
 }

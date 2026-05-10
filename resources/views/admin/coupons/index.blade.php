@@ -28,7 +28,7 @@
                 <tr>
                     <td class="ps-4 fw-bold text-primary">{{ $coupon->name }}</td>
                     <td>{{ $coupon->title }}</td>
-                    <td class="fw-bold">${{ number_format($coupon->amount, 2) }}</td>
+                    <td class="fw-bold">₹{{ number_format($coupon->amount, 2) }}</td>
                     <td>
                         @if($coupon->status)
                         <span class="badge badge-soft-success rounded-pill">Active</span>

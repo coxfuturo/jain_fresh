@@ -40,7 +40,7 @@
                 <li><a class="dropdown-item rounded-3 py-2" href="#"><i class="far fa-user me-2"></i> Profile</a></li>
                 <li><a class="dropdown-item rounded-3 py-2" href="#"><i class="fas fa-shield-alt me-2"></i> Security</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item rounded-3 py-2 text-danger" href="#"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                <li><a class="dropdown-item rounded-3 py-2 text-danger" href="{{ route('admin.logout') }}"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
             </ul>
         </div>
     </div>

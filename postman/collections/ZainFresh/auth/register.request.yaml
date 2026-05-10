@@ -1,5 +1,6 @@
 $kind: http-request
-url: http://127.0.0.1:8000/api/register
+name: register
+url: http://zainfresh.coxfuture.com/api/register
 method: POST
 body:
   type: json

@@ -1,0 +1,28 @@
+$kind: http-request
+name: ShowBanner
+url: http://zainfresh.coxfuture.com/api/banners
+method: GET
+body:
+  type: formdata
+  content:
+    - type: text
+      key: name
+      value: banner
+      description: ""
+      disabled: false
+    - type: text
+      key: title
+      value: "coxfuture "
+      description: ""
+      disabled: false
+    - type: text
+      key: image
+      value: hl
+      description: ""
+      disabled: false
+    - type: text
+      key: status
+      value: "1"
+      description: ""
+      disabled: false
+order: 1778318659596

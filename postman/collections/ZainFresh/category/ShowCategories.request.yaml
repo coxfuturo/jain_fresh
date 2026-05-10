@@ -1,0 +1,5 @@
+$kind: http-request
+name: ShowCategories
+url: http://zainfresh.coxfuture.com/api/categories
+method: GET
+order: 1778319314561

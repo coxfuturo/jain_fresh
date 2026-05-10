@@ -24,7 +24,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Weight / Price Info</label>
-                            <input type="text" name="weight" class="form-control" placeholder="e.g. 500g / $5" required>
+                            <input type="text" name="weight" class="form-control" placeholder="e.g. 500g / ₹5" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Category</label>
