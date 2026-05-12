@@ -38,8 +38,6 @@ class ProductController extends Controller
 
         $product = Product::create([
 
-            'productId' => $request->productId,
-
             'name' => $request->name,
 
             'image' => $image,

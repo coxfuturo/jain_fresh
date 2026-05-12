@@ -34,11 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('addresses', AddressController::class);
 
     // PROTECTED APIs
-    Route::apiResource('banners', BannerController::class);
-
-    Route::apiResource('categories', CategoryController::class);
-
-    Route::apiResource('products', ProductController::class);
 
     Route::apiResource('coupons', CouponController::class);
 
@@ -51,5 +46,11 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('register', [AuthController::class, 'register']);
 
 Route::post('login', [AuthController::class, 'login']);
+
+Route::apiResource('banners', BannerController::class);
+
+Route::apiResource('categories', CategoryController::class);
+
+Route::apiResource('products', ProductController::class);
 
 Route::get('similar-products/{id}', [ProductController::class, 'similarProducts']);

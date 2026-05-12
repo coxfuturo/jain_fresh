@@ -34,7 +34,7 @@
             <tbody>
                 @forelse($products as $product)
                 <tr>
-                    <td class="ps-4 text-muted small">#{{ $product->productId ?? $product->id }}</td>
+                    <td class="ps-4 text-muted small">#{{ $product->id }}</td>
                     <td>
                         <img src="{{ $product->image ? asset('storage/'.$product->image) : 'https://ui-avatars.com/api/?name='.$product->name }}" class="rounded-3 shadow-sm" width="48" height="48" style="object-fit: cover;">
                     </td>

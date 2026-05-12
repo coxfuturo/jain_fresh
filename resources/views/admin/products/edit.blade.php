@@ -34,10 +34,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Product ID</label>
-                            <input type="text" name="productId" class="form-control" value="{{ $product->productId }}">
-                        </div>
+                        
                     </div>
 
                     <div class="col-md-6">
