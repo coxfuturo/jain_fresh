@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CouponController;
 use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('my-orders', [OrderController::class, 'myOrders']);
 
     Route::get('order-details/{id}', [OrderController::class, 'orderDetails']);
+
+    Route::post('place-order', [OrderController::class, 'placeOrder']);
+
+    Route::apiResource('addresses', AddressController::class);
 
     // PROTECTED APIs
     Route::apiResource('banners', BannerController::class);
