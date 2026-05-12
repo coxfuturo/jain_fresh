@@ -20,27 +20,31 @@ use App\Http\Controllers\Api\OrderController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::middleware('auth:sanctum')->group(function () {
+
     Route::post('profile-update', [AuthController::class, 'updateProfile']);
 
     Route::get('my-orders', [OrderController::class, 'myOrders']);
 
     Route::get('order-details/{id}', [OrderController::class, 'orderDetails']);
+
+    // PROTECTED APIs
+    Route::apiResource('banners', BannerController::class);
+
+    Route::apiResource('categories', CategoryController::class);
+
+    Route::apiResource('products', ProductController::class);
+
+    Route::apiResource('coupons', CouponController::class);
+
+    Route::post('apply-coupon', [CouponController::class, 'applyCoupon']);
+
 });
 
+
+// PUBLIC APIs
 Route::post('register', [AuthController::class, 'register']);
+
 Route::post('login', [AuthController::class, 'login']);
 
-Route::apiResource('banners', BannerController::class);
-Route::apiResource('categories', CategoryController::class);
-Route::apiResource('products', ProductController::class);
-
 Route::get('similar-products/{id}', [ProductController::class, 'similarProducts']);
-
-// coupne card
-Route::apiResource('coupons', CouponController::class);
-Route::post('apply-coupon', [CouponController::class, 'applyCoupon']);
