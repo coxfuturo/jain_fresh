@@ -28,7 +28,7 @@
                 <div class="mb-4">
                     <label class="form-label fw-bold">Discount Amount</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-light fw-bold">$</span>
+                        <span class="input-group-text bg-light fw-bold">₹</span>
                         <input type="number" name="amount" class="form-control" placeholder="0.00" step="0.01" required>
                     </div>
                 </div>

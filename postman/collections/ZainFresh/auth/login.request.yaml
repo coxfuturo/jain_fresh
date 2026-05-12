@@ -1,4 +1,5 @@
 $kind: http-request
-url: http://127.0.0.1:8000/api/login
-method: GET
+name: login
+url: http://zainfresh.coxfuture.com/api/login
+method: POST
 order: 1000

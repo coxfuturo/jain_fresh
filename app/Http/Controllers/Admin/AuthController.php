@@ -17,7 +17,7 @@ class AuthController extends Controller
         if (Auth::check()) {
             return redirect()->route('admin.dashboard');
         }
-        
+
         return view('admin.auth.login');
     }
 
@@ -55,5 +55,37 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect()->route('admin.login');
+    }
+
+    public function updateProfile(Request $request)
+    {
+
+        $user = auth()->user();
+
+        $user->name = $request->name;
+
+        $user->email = $request->email;
+
+        $user->phone = $request->phone;
+
+        $user->gender = $request->gender;
+
+        $user->address = $request->address;
+
+        if ($request->password) {
+
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        return response()->json([
+
+            'status' => true,
+
+            'message' => 'Profile Updated Successfully',
+
+            'user' => $user
+        ]);
     }
 }

@@ -73,4 +73,36 @@ class AuthController extends Controller
             'user' => $user
         ]);
     }
+
+    public function updateProfile(Request $request)
+    {
+
+        $user = auth()->user();
+
+        $user->name = $request->name;
+
+        $user->email = $request->email;
+
+        $user->phone = $request->phone;
+
+        $user->gender = $request->gender;
+
+        $user->address = $request->address;
+
+        if ($request->password) {
+
+            $user->password = bcrypt($request->password);
+        }
+
+        $user->save();
+
+        return response()->json([
+
+            'status' => true,
+
+            'message' => 'Profile Updated Successfully',
+
+            'user' => $user
+        ]);
+    }
 }

@@ -29,7 +29,7 @@ class BannerController extends Controller
 
         if ($request->hasFile('image')) {
             $image = time().'.'.$request->image->extension();
-            $request->image->move(public_path('uploads/banner'), $image);
+            $request->image->store(('uploads/banner'), $image);
         }
 
         $banner = Banner::create([

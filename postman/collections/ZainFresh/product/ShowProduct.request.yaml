@@ -1,0 +1,5 @@
+$kind: http-request
+name: ShowProduct
+url: http://zainfresh.coxfuture.com/api/products
+method: GET
+order: 1778319444690
