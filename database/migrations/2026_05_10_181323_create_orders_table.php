@@ -14,21 +14,30 @@ return new class extends Migration {
 
             $table->id();
 
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id')
+                ->constrained()
+                ->onDelete('cascade');
 
-            $table->decimal('total_amount', 10, 2);
+            $table->unsignedBigInteger('address_id');
+
+            $table->foreign('address_id')
+                ->references('id')
+                ->on('addresses')
+                ->onDelete('cascade');
+
+            $table->decimal('subtotal', 10, 2)->default(0);
+
+            $table->decimal('discount_amount', 10, 2)->default(0);
+
+            $table->decimal('total_amount', 10, 2)->default(0);
+
+            $table->string('payment_method')->nullable();
 
             $table->string('payment_status')->default('Pending');
 
             $table->string('order_status')->default('Pending');
 
             $table->timestamps();
-
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
-
         });
     }
 

@@ -79,6 +79,41 @@ class AuthController extends Controller
 
         $user = auth()->user();
 
+        if (!$user) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'User not found'
+            ]);
+        }
+
+        // VALIDATION
+        $validator = Validator::make($request->all(), [
+
+            'name' => 'required',
+
+            'email' => 'required|email|unique:users,email,' . $user->id,
+
+            'phone' => 'required',
+
+            'gender' => 'required',
+
+            'address' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        // UPDATE PROFILE
         $user->name = $request->name;
 
         $user->email = $request->email;
@@ -89,6 +124,7 @@ class AuthController extends Controller
 
         $user->address = $request->address;
 
+        // OPTIONAL PASSWORD
         if ($request->password) {
 
             $user->password = bcrypt($request->password);
@@ -100,7 +136,7 @@ class AuthController extends Controller
 
             'status' => true,
 
-            'message' => 'Profile Updated Successfully',
+            'message' => 'Profile Updated',
 
             'user' => $user
         ]);
