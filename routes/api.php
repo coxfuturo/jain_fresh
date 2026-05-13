@@ -23,7 +23,22 @@ use App\Http\Controllers\Api\AddressController;
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::get(
+        'profile',
+        [AuthController::class, 'profile']
+    );
+
     Route::post('profile-update', [AuthController::class, 'updateProfile']);
+
+    Route::post(
+        'update-profile-image',
+        [AuthController::class, 'updateProfileImage']
+    );
+
+    Route::delete(
+        'delete-profile-image',
+        [AuthController::class, 'deleteProfileImage']
+    );
 
     Route::get('my-orders', [OrderController::class, 'myOrders']);
 

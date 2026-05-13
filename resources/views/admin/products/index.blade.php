@@ -40,7 +40,15 @@
                     </td>
                     <td class="fw-bold">{{ $product->name }}</td>
                     <td><span class="badge bg-light text-dark border rounded-pill small">{{ $product->category->name ?? 'N/A' }}</span></td>
-                    <td class="small">{{ $product->weight }}</td>
+                    <td class="small">
+                        @if(is_array($product->weight))
+                            @foreach($product->weight as $item)
+                                <div class="text-nowrap">{{ $item['weight'] }} - ₹{{ $item['price'] }}</div>
+                            @endforeach
+                        @else
+                            {{ $product->weight }}
+                        @endif
+                    </td>
                     <td>
                         @if($product->status)
                         <span class="badge badge-soft-success rounded-pill">Active</span>

@@ -8,9 +8,51 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
+    public function profile(Request $request)
+    {
+
+        $user = auth()->user();
+
+        if (!$user) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'User not found'
+            ]);
+        }
+
+        return response()->json([
+
+            'status' => true,
+
+            'message' => 'User Profile',
+
+            'user' => [
+
+                'id' => $user->id,
+
+                'name' => $user->name,
+
+                'email' => $user->email,
+
+                'phone' => $user->phone,
+
+                'gender' => $user->gender,
+
+                'address' => $user->address,
+
+                'image' => $user->image
+                    ? asset('storage/' . $user->image)
+                    : null
+            ]
+        ]);
+    }
     //register
 
     public function register(Request $request)
@@ -92,15 +134,19 @@ class AuthController extends Controller
         // VALIDATION
         $validator = Validator::make($request->all(), [
 
-            'name' => 'required',
+            'name' => 'nullable|string',
 
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'nullable|email|unique:users,email,' . $user->id,
 
-            'phone' => 'required',
+            'phone' => 'nullable',
 
-            'gender' => 'required',
+            'gender' => 'nullable',
 
-            'address' => 'required'
+            'address' => 'nullable',
+
+            'password' => 'nullable|min:6',
+
+            'image' => 'nullable|image|mimes:jpg,jpeg,png'
         ]);
 
         if ($validator->fails()) {
@@ -113,21 +159,50 @@ class AuthController extends Controller
             ]);
         }
 
-        // UPDATE PROFILE
-        $user->name = $request->name;
+        // UPDATE ONLY IF VALUE EXISTS
 
-        $user->email = $request->email;
+        if ($request->filled('name')) {
+            $user->name = $request->name;
+        }
 
-        $user->phone = $request->phone;
+        // EMAIL UPDATE
+        if ($request->filled('email')) {
 
-        $user->gender = $request->gender;
+            $user->email = $request->email;
+        }
 
-        $user->address = $request->address;
+        if ($request->filled('phone')) {
+            $user->phone = $request->phone;
+        }
 
-        // OPTIONAL PASSWORD
-        if ($request->password) {
+        if ($request->filled('gender')) {
+            $user->gender = $request->gender;
+        }
+
+        if ($request->filled('address')) {
+            $user->address = $request->address;
+        }
+
+        // PASSWORD UPDATE
+        if ($request->filled('password')) {
 
             $user->password = bcrypt($request->password);
+        }
+
+        // IMAGE UPDATE
+        if ($request->hasFile('image')) {
+
+            // OLD IMAGE DELETE
+            if ($user->image && Storage::disk('public')->exists($user->image)) {
+
+                Storage::disk('public')->delete($user->image);
+            }
+
+            // SAVE IMAGE
+            $imagePath = $request->file('image')
+                ->store('users', 'public');
+
+            $user->image = $imagePath;
         }
 
         $user->save();
@@ -136,9 +211,101 @@ class AuthController extends Controller
 
             'status' => true,
 
-            'message' => 'Profile Updated',
+            'message' => 'Profile Updated Successfully',
 
             'user' => $user
+        ]);
+    }
+
+    public function updateProfileImage(Request $request)
+    {
+
+        $user = auth()->user();
+
+        if (!$user) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'User not found'
+            ]);
+        }
+
+        // VALIDATION
+        $validator = Validator::make($request->all(), [
+
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'errors' => $validator->errors()
+            ]);
+        }
+
+        // DELETE OLD IMAGE
+        if ($user->image && Storage::disk('public')->exists($user->image)) {
+
+            Storage::disk('public')->delete($user->image);
+        }
+
+        // UPLOAD NEW IMAGE
+        $imagePath = $request->file('image')
+            ->store('users', 'public');
+
+        // SAVE IMAGE
+        $user->image = $imagePath;
+
+        $user->save();
+
+        return response()->json([
+
+            'status' => true,
+
+            'message' => 'Profile Image Updated',
+
+            'image_url' => asset('storage/' . $imagePath),
+
+            'user' => $user
+        ]);
+    }
+
+    public function deleteProfileImage()
+    {
+
+        $user = auth()->user();
+
+        if (!$user) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'User not found'
+            ]);
+        }
+
+        // DELETE IMAGE
+        if ($user->image && Storage::disk('public')->exists($user->image)) {
+
+            Storage::disk('public')->delete($user->image);
+        }
+
+        // REMOVE FROM DB
+        $user->image = null;
+
+        $user->save();
+
+        return response()->json([
+
+            'status' => true,
+
+            'message' => 'Profile Image Deleted'
         ]);
     }
 }

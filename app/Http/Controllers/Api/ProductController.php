@@ -42,7 +42,7 @@ class ProductController extends Controller
 
             'image' => $image,
 
-            'weight' => $request->weight,
+            'weight' => $this->parseWeightPrice($request->weight),
 
             'category_id' => $request->category_id,
 
@@ -98,7 +98,7 @@ class ProductController extends Controller
 
         $product->productId = $request->productId;
         $product->name = $request->name;
-        $product->weight = $request->weight;
+        $product->weight = $this->parseWeightPrice($request->weight);
 
         $product->category_id = $request->category_id;
 
@@ -160,10 +160,34 @@ class ProductController extends Controller
             ->get();
 
         return response()->json([
-
             'status' => true,
-
             'data' => $similarProducts
         ]);
+    }
+
+    private function parseWeightPrice($weightString)
+    {
+        if (empty($weightString)) {
+            return [];
+        }
+
+        if (is_array($weightString)) {
+            return $weightString;
+        }
+
+        $pairs = explode(',', $weightString);
+        $result = [];
+
+        foreach ($pairs as $pair) {
+            $parts = explode('/', $pair);
+            if (count($parts) == 2) {
+                $result[] = [
+                    'weight' => trim($parts[0]),
+                    'price' => trim($parts[1])
+                ];
+            }
+        }
+
+        return $result;
     }
 }
