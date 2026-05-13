@@ -35,6 +35,7 @@ Route::prefix('admin')->group(function () {
     Route::resource('banners', BannerController::class);
     Route::resource('users', UserController::class);
     Route::resource('coupons', CouponController::class);
+    Route::resource('orders', OrderController::class);
 
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
 });
