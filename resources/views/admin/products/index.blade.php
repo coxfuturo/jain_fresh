@@ -35,9 +35,33 @@
                 @forelse($products as $product)
                 <tr>
                     <td class="ps-4 text-muted small">#{{ $product->id }}</td>
-                    <td>
-                        <img src="{{ $product->image ? asset('storage/'.$product->image) : 'https://ui-avatars.com/api/?name='.$product->name }}" class="rounded-3 shadow-sm" width="48" height="48" style="object-fit: cover;">
-                    </td>
+<td>
+
+    @php
+
+        $firstImage = null;
+
+        if(!empty($product->image)){
+
+            $images = is_array($product->image)
+                    ? $product->image
+                    : json_decode($product->image, true);
+
+            $firstImage = $images[0] ?? null;
+        }
+
+    @endphp
+
+    <img src="{{ $firstImage
+            ? asset('storage/'.$firstImage)
+            : 'https://ui-avatars.com/api/?name='.$product->name }}"
+
+         class="rounded-3 shadow-sm"
+         width="48"
+         height="48"
+         style="object-fit: cover;">
+
+</td>
                     <td class="fw-bold">{{ $product->name }}</td>
                     <td><span class="badge bg-light text-dark border rounded-pill small">{{ $product->category->name ?? 'N/A' }}</span></td>
                     <td class="small">

@@ -15,8 +15,11 @@ class ProductController extends Controller
         $products = Product::with('category')->latest()->get();
 
         return response()->json([
+
             'status' => true,
+
             'data' => $products
+
         ]);
     }
 
@@ -24,23 +27,26 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-        $image = '';
+        $images = [];
 
+        // MULTIPLE IMAGE UPLOAD
         if ($request->hasFile('image')) {
 
-            $image = time() . '.' . $request->image->extension();
+            foreach ($request->file('image') as $file) {
 
-            $request->image->move(
-                public_path('uploads/products'),
-                $image
-            );
+                $imageName = time() . rand(1,1000) . '.' . $file->extension();
+
+                $file->move(public_path('uploads/products'), $imageName);
+
+                $images[] = $imageName;
+            }
         }
 
         $product = Product::create([
 
             'name' => $request->name,
 
-            'image' => $image,
+            'image' => $images,
 
             'weight' => $this->parseWeightPrice($request->weight),
 
@@ -61,20 +67,39 @@ class ProductController extends Controller
         ]);
 
         return response()->json([
+
             'status' => true,
+
             'message' => 'Product Created',
+
             'data' => $product
+
         ]);
     }
 
     // SINGLE PRODUCT
     public function show($id)
     {
+
         $product = Product::with('category')->find($id);
 
+        if (!$product) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'Product Not Found'
+
+            ]);
+        }
+
         return response()->json([
+
             'status' => true,
+
             'data' => $product
+
         ]);
     }
 
@@ -84,20 +109,52 @@ class ProductController extends Controller
 
         $product = Product::find($id);
 
+        if (!$product) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'Product Not Found'
+
+            ]);
+        }
+
+        // MULTIPLE IMAGE UPDATE
         if ($request->hasFile('image')) {
 
-            $image = time() . '.' . $request->image->extension();
+            // DELETE OLD IMAGES
+            if (!empty($product->image)) {
 
-            $request->image->move(
-                public_path('uploads/products'),
-                $image
-            );
+                foreach ($product->image as $oldImage) {
 
-            $product->image = $image;
+                    $oldPath = public_path('uploads/products/' . $oldImage);
+
+                    if (file_exists($oldPath)) {
+
+                        unlink($oldPath);
+                    }
+                }
+            }
+
+            $images = [];
+
+            foreach ($request->file('image') as $file) {
+
+                $imageName = time() . rand(1,1000) . '.' . $file->extension();
+
+                $file->move(public_path('uploads/products'), $imageName);
+
+                $images[] = $imageName;
+            }
+
+            $product->image = $images;
         }
 
         $product->productId = $request->productId;
+
         $product->name = $request->name;
+
         $product->weight = $this->parseWeightPrice($request->weight);
 
         $product->category_id = $request->category_id;
@@ -117,23 +174,59 @@ class ProductController extends Controller
         $product->save();
 
         return response()->json([
+
             'status' => true,
-            'message' => 'Product Updated'
+
+            'message' => 'Product Updated',
+
+            'data' => $product
+
         ]);
     }
 
     // DELETE PRODUCT
     public function destroy($id)
     {
-        Product::destroy($id);
+
+        $product = Product::find($id);
+
+        if (!$product) {
+
+            return response()->json([
+
+                'status' => false,
+
+                'message' => 'Product Not Found'
+
+            ]);
+        }
+
+        // DELETE MULTIPLE IMAGES
+        if (!empty($product->image)) {
+
+            foreach ($product->image as $image) {
+
+                $path = public_path('uploads/products/' . $image);
+
+                if (file_exists($path)) {
+
+                    unlink($path);
+                }
+            }
+        }
+
+        $product->delete();
 
         return response()->json([
+
             'status' => true,
+
             'message' => 'Product Deleted'
+
         ]);
     }
 
-    // similar product
+    // SIMILAR PRODUCTS
     public function similarProducts($id)
     {
 
@@ -146,6 +239,7 @@ class ProductController extends Controller
                 'status' => false,
 
                 'message' => 'Product Not Found'
+
             ]);
         }
 
@@ -160,30 +254,44 @@ class ProductController extends Controller
             ->get();
 
         return response()->json([
+
             'status' => true,
+
             'data' => $similarProducts
+
         ]);
     }
 
+    // WEIGHT & PRICE ARRAY
     private function parseWeightPrice($weightString)
     {
+
         if (empty($weightString)) {
+
             return [];
         }
 
         if (is_array($weightString)) {
+
             return $weightString;
         }
 
         $pairs = explode(',', $weightString);
+
         $result = [];
 
         foreach ($pairs as $pair) {
+
             $parts = explode('/', $pair);
+
             if (count($parts) == 2) {
+
                 $result[] = [
+
                     'weight' => trim($parts[0]),
+
                     'price' => trim($parts[1])
+
                 ];
             }
         }

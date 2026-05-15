@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Address;
+use App\Models\Sector;
 
 class AddressController extends Controller
 {
@@ -27,98 +28,225 @@ class AddressController extends Controller
 
 
     // ADD ADDRESS
+    // public function store(Request $request)
+    // {
+
+    //     $address = Address::create([
+
+    //         'user_id' => auth()->id(),
+
+    //         'full_name' => $request->full_name,
+
+    //         'phone' => $request->phone,
+
+    //         'house_no' => $request->house_no,
+
+    //         'street' => $request->street,
+
+    //         'city' => $request->city,
+
+    //         'pincode' => $request->pincode,
+
+    //         'address_type' => $request->address_type
+
+    //     ]);
+
+    //     return response()->json([
+
+    //         'status' => true,
+
+    //         'message' => 'Address Added',
+
+    //         'data' => $address
+    //     ]);
+    // }
+
     public function store(Request $request)
-    {
+{
 
-        $address = Address::create([
+    $address = Address::create([
 
-            'user_id' => auth()->id(),
+        'user_id' => auth()->id(),
 
-            'full_name' => $request->full_name,
+        'full_name' => $request->full_name,
 
-            'phone' => $request->phone,
+        'phone' => $request->phone,
 
-            'house_no' => $request->house_no,
+        'house_no' => $request->house_no,
 
-            'street' => $request->street,
+        'street' => $request->street,
 
-            'city' => $request->city,
+        'city' => $request->city,
 
-            'pincode' => $request->pincode,
+        'pincode' => $request->pincode,
 
-            'address_type' => $request->address_type
+        'address_type' => $request->address_type
 
-        ]);
+    ]);
 
-        return response()->json([
+    // Sector List
+    $sector_list = Sector::where('status', 1)->get();
 
-            'status' => true,
+    return response()->json([
 
-            'message' => 'Address Added',
+        'status' => true,
 
-            'data' => $address
-        ]);
-    }
+        'message' => 'Address Added',
+
+        'data' => $address,
+
+        'sector_list' => $sector_list
+
+    ]);
+}
 
 
     // SINGLE ADDRESS
-    public function show($id)
-    {
+    // public function show($id)
+    // {
 
-        $address = Address::where('user_id', auth()->id())
-                    ->where('id', $id)
-                    ->first();
+    //     $address = Address::where('user_id', auth()->id())
+    //                 ->where('id', $id)
+    //                 ->first();
+
+    //     return response()->json([
+
+    //         'status' => true,
+
+    //         'data' => $address
+    //     ]);
+    // }
+
+    public function show($id)
+{
+
+    $address = Address::where('user_id', auth()->id())
+                ->where('id', $id)
+                ->first();
+
+    if (!$address) {
 
         return response()->json([
 
-            'status' => true,
+            'status' => false,
 
-            'data' => $address
-        ]);
+            'message' => 'Address Not Found'
+
+        ], 404);
     }
+
+    // Sector List
+    $sector_list = Sector::where('status',1)
+                    ->select('id','sector_name')
+                    ->get();
+
+    return response()->json([
+
+        'status' => true,
+
+        'data' => $address,
+
+        'sector_list' => $sector_list
+
+    ]);
+}
 
 
     // UPDATE ADDRESS
+    // public function update(Request $request, $id)
+    // {
+
+    //     $address = Address::where('user_id', auth()->id())
+    //                 ->where('id', $id)
+    //                 ->first();
+
+    //     if (!$address) {
+
+    //         return response()->json([
+
+    //             'status' => false,
+
+    //             'message' => 'Address Not Found'
+    //         ]);
+    //     }
+
+    //     $address->full_name = $request->full_name;
+
+    //     $address->phone = $request->phone;
+
+    //     $address->house_no = $request->house_no;
+
+    //     $address->street = $request->street;
+
+    //     $address->city = $request->city;
+
+    //     $address->pincode = $request->pincode;
+
+    //     $address->address_type = $request->address_type;
+
+    //     $address->save();
+
+    //     return response()->json([
+
+    //         'status' => true,
+
+    //         'message' => 'Address Updated'
+    //     ]);
+    // }
+
     public function update(Request $request, $id)
-    {
+{
 
-        $address = Address::where('user_id', auth()->id())
-                    ->where('id', $id)
-                    ->first();
+    $address = Address::where('user_id', auth()->id())
+                ->where('id', $id)
+                ->first();
 
-        if (!$address) {
-
-            return response()->json([
-
-                'status' => false,
-
-                'message' => 'Address Not Found'
-            ]);
-        }
-
-        $address->full_name = $request->full_name;
-
-        $address->phone = $request->phone;
-
-        $address->house_no = $request->house_no;
-
-        $address->street = $request->street;
-
-        $address->city = $request->city;
-
-        $address->pincode = $request->pincode;
-
-        $address->address_type = $request->address_type;
-
-        $address->save();
+    if (!$address) {
 
         return response()->json([
 
-            'status' => true,
+            'status' => false,
 
-            'message' => 'Address Updated'
-        ]);
+            'message' => 'Address Not Found'
+
+        ], 404);
     }
+
+    $address->update([
+
+        'full_name' => $request->full_name,
+
+        'phone' => $request->phone,
+
+        'house_no' => $request->house_no,
+
+        'street' => $request->street,
+
+        'city' => $request->city,
+
+        'pincode' => $request->pincode,
+
+        'address_type' => $request->address_type
+
+    ]);
+
+    // Sector List
+    $sector_list = Sector::where('status',1)
+                    ->select('id','sector_name')
+                    ->get();
+
+    return response()->json([
+
+        'status' => true,
+
+        'message' => 'Address Updated Successfully',
+
+        'data' => $address,
+
+        'sector_list' => $sector_list
+
+    ]);
+}
 
 
     // DELETE ADDRESS
@@ -148,4 +276,22 @@ class AddressController extends Controller
             'message' => 'Address Deleted'
         ]);
     }
+
+
+    public function sectorList()
+{
+    $sector_list = Sector::where('status', 1)
+                    ->select('id', 'sector_name')
+                    ->get();
+
+    return response()->json([
+
+        'status' => true,
+
+        'message' => 'Sector List',
+
+        'data' => $sector_list
+
+    ]);
+}
 }
