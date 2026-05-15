@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 });
 
+    Route::get('sector-list',[AddressController::class,'sectorList']);
 
 // PUBLIC APIs
 Route::post('register', [AuthController::class, 'register']);

@@ -3,85 +3,365 @@
 @section('title', 'Edit Product')
 
 @section('content')
+
+<style>
+
+    .product-card{
+        border:none;
+        border-radius:20px;
+        overflow:hidden;
+        background:#fff;
+    }
+
+    .form-control,
+    .form-select{
+        height:50px;
+        border-radius:12px;
+        border:1px solid #e5e7eb;
+        box-shadow:none !important;
+    }
+
+    textarea.form-control{
+        height:auto;
+    }
+
+    .form-control:focus,
+    .form-select:focus{
+        border-color:#0d6efd;
+    }
+
+    .preview-img{
+        width:90px;
+        height:90px;
+        object-fit:cover;
+        border-radius:14px;
+        border:1px solid #ddd;
+        margin:6px;
+    }
+
+    .upload-box{
+        border:2px dashed #d1d5db;
+        border-radius:16px;
+        padding:20px;
+        background:#f9fafb;
+        text-align:center;
+    }
+
+    .save-btn{
+        height:52px;
+        border-radius:14px;
+        font-size:16px;
+    }
+
+</style>
+
 <div class="row justify-content-center">
-    <div class="col-lg-10">
+
+    <div class="col-lg-11">
+
         <div class="d-flex align-items-center gap-3 mb-4">
-            <a href="{{ route('products.index') }}" class="btn btn-light rounded-circle shadow-sm">
+
+            <a href="{{ route('products.index') }}"
+               class="btn btn-light rounded-circle shadow-sm">
+
                 <i class="fas fa-arrow-left text-muted"></i>
+
             </a>
-            <h3 class="fw-bold mb-0">Edit Product: {{ $product->name }}</h3>
+
+            <div>
+
+                <h3 class="fw-bold mb-0">
+                    Edit Product
+                </h3>
+
+                <small class="text-muted">
+                    {{ $product->name }}
+                </small>
+
+            </div>
+
         </div>
 
-        <div class="card border-0 shadow-sm p-4">
-            <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Product Name</label>
-                            <input type="text" name="name" class="form-control" value="{{ $product->name }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Weight / Price Info (Multiple: 500g/50, 1kg/100)</label>
-                            @php
-                                $weightValue = is_array($product->weight) 
-                                    ? implode(', ', array_map(fn($item) => $item['weight'].'/'.$item['price'], $product->weight)) 
-                                    : $product->weight;
-                            @endphp
-                            <input type="text" name="weight" class="form-control" value="{{ $weightValue }}" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Category</label>
-                            <select name="category_id" class="form-select" required>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        
-                    </div>
+        <div class="card shadow-sm product-card">
 
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Current Image</label>
-                            <div class="mb-2">
-                                <img src="{{ $product->image ? asset('storage/'.$product->image) : 'https://ui-avatars.com/api/?name='.$product->name }}" class="rounded-3 shadow-sm" width="80" height="80" style="object-fit: cover;">
+            <div class="card-body p-4 p-lg-5">
+
+                <form action="{{ route('products.update', $product->id) }}"
+                      method="POST"
+                      enctype="multipart/form-data">
+
+                    @csrf
+                    @method('PUT')
+
+                    <div class="row g-4">
+
+                        <!-- LEFT -->
+                        <div class="col-md-6">
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Product Name
+                                </label>
+
+                                <input type="text"
+                                       name="name"
+                                       class="form-control"
+                                       value="{{ $product->name }}"
+                                       required>
+
                             </div>
-                            <input type="file" name="image" class="form-control" accept="image/*">
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Weight / Price Info
+                                </label>
+
+                                @php
+
+                                    $weightValue = is_array($product->weight)
+
+                                    ? implode(', ', array_map(fn($item) => $item['weight'].'/'.$item['price'], $product->weight))
+
+                                    : $product->weight;
+
+                                @endphp
+
+                                <input type="text"
+                                       name="weight"
+                                       class="form-control"
+                                       value="{{ $weightValue }}"
+                                       placeholder="500g/50,1kg/100"
+                                       required>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Category
+                                </label>
+
+                                <select name="category_id"
+                                        class="form-select"
+                                        required>
+
+                                    @foreach($categories as $category)
+
+                                        <option value="{{ $category->id }}"
+                                            {{ $product->category_id == $category->id ? 'selected' : '' }}>
+
+                                            {{ $category->name }}
+
+                                        </option>
+
+                                    @endforeach
+
+                                </select>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Stock Status
+                                </label>
+
+                                <input type="text"
+                                       name="stock_status"
+                                       class="form-control"
+                                       value="{{ $product->stock_status }}">
+
+                            </div>
+
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Status</label>
-                            <select name="status" class="form-select">
-                                <option value="1" {{ $product->status == 1 ? 'selected' : '' }}>Active</option>
-                                <option value="0" {{ $product->status == 0 ? 'selected' : '' }}>Inactive</option>
-                            </select>
+
+                        <!-- RIGHT -->
+                        <div class="col-md-6">
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Product Images
+                                </label>
+
+                                <div class="upload-box">
+
+                                    <i class="fas fa-cloud-upload-alt fa-2x text-primary mb-3"></i>
+
+                                    <p class="text-muted">
+                                        Select Multiple Images
+                                    </p>
+
+                                    <input type="file"
+                                           name="image[]"
+                                           id="imageInput"
+                                           class="form-control"
+                                           accept="image/*"
+                                           multiple>
+
+                                </div>
+
+                            </div>
+
+                            <!-- OLD IMAGES -->
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Current Images
+                                </label>
+
+                                <div class="d-flex flex-wrap">
+
+                                    @if(!empty($product->image))
+
+    @php
+
+        $images = is_array($product->image)
+                ? $product->image
+                : json_decode($product->image, true);
+
+    @endphp
+
+    @foreach($images as $image)
+
+        <img src="{{ asset('storage/'.$image) }}"
+             class="preview-img">
+
+    @endforeach
+
+@else
+
+    <img src="https://ui-avatars.com/api/?name={{ $product->name }}"
+         class="preview-img">
+
+@endif
+
+                                </div>
+
+                            </div>
+
+                            <!-- NEW PREVIEW -->
+                            <div id="preview"
+                                 class="d-flex flex-wrap">
+                            </div>
+
+                            <div class="mb-3 mt-3">
+
+                                <label class="form-label fw-semibold">
+                                    Status
+                                </label>
+
+                                <select name="status"
+                                        class="form-select">
+
+                                    <option value="1"
+                                        {{ $product->status == 1 ? 'selected' : '' }}>
+
+                                        Active
+
+                                    </option>
+
+                                    <option value="0"
+                                        {{ $product->status == 0 ? 'selected' : '' }}>
+
+                                        Inactive
+
+                                    </option>
+
+                                </select>
+
+                            </div>
+
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Stock Status</label>
-                            <input type="text" name="stock_status" class="form-control" value="{{ $product->stock_status }}">
+
+                        <!-- FULL WIDTH -->
+                        <div class="col-12">
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Nutrition Info
+                                </label>
+
+                                <textarea name="nutrition"
+                                          class="form-control"
+                                          rows="3">{{ $product->nutrition }}</textarea>
+
+                            </div>
+
+                            <div class="mb-3">
+
+                                <label class="form-label fw-semibold">
+                                    Storage Tips
+                                </label>
+
+                                <textarea name="storage_tips"
+                                          class="form-control"
+                                          rows="3">{{ $product->storage_tips }}</textarea>
+
+                            </div>
+
                         </div>
+
                     </div>
 
-                    <div class="col-12">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Nutrition Info</label>
-                            <textarea name="nutrition" class="form-control" rows="2">{{ $product->nutrition }}</textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Storage Tips</label>
-                            <textarea name="storage_tips" class="form-control" rows="2">{{ $product->storage_tips }}</textarea>
-                        </div>
-                    </div>
-                </div>
+                    <div class="mt-4">
 
-                <div class="d-grid mt-4">
-                    <button type="submit" class="btn btn-primary rounded-3 py-2 fw-bold shadow-sm">
-                        <i class="fas fa-save me-2"></i> Update Product
-                    </button>
-                </div>
-            </form>
+                        <button type="submit"
+                                class="btn btn-primary w-100 save-btn fw-bold shadow-sm">
+
+                            <i class="fas fa-save me-2"></i>
+
+                            Update Product
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
         </div>
+
     </div>
+
 </div>
+
+<script>
+
+    const imageInput = document.getElementById('imageInput');
+
+    const preview = document.getElementById('preview');
+
+    imageInput.addEventListener('change', function(){
+
+        preview.innerHTML = '';
+
+        Array.from(this.files).forEach(file => {
+
+            const reader = new FileReader();
+
+            reader.onload = function(e){
+
+                const img = document.createElement('img');
+
+                img.src = e.target.result;
+
+                img.classList.add('preview-img');
+
+                preview.appendChild(img);
+
+            }
+
+            reader.readAsDataURL(file);
+
+        });
+
+    });
+
+</script>
+
 @endsection
