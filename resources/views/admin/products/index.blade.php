@@ -34,13 +34,21 @@
             <tbody>
                 @forelse($products as $product)
                 <tr>
-                    <td class="ps-4 text-muted small">#{{ $product->productId ?? $product->id }}</td>
+                    <td class="ps-4 text-muted small">#{{ $product->id }}</td>
                     <td>
                         <img src="{{ $product->image ? asset('storage/'.$product->image) : 'https://ui-avatars.com/api/?name='.$product->name }}" class="rounded-3 shadow-sm" width="48" height="48" style="object-fit: cover;">
                     </td>
                     <td class="fw-bold">{{ $product->name }}</td>
                     <td><span class="badge bg-light text-dark border rounded-pill small">{{ $product->category->name ?? 'N/A' }}</span></td>
-                    <td class="small">{{ $product->weight }}</td>
+                    <td class="small">
+                        @if(is_array($product->weight))
+                            @foreach($product->weight as $item)
+                                <div class="text-nowrap">{{ $item['weight'] }} - ₹{{ $item['price'] }}</div>
+                            @endforeach
+                        @else
+                            {{ $product->weight }}
+                        @endif
+                    </td>
                     <td>
                         @if($product->status)
                         <span class="badge badge-soft-success rounded-pill">Active</span>

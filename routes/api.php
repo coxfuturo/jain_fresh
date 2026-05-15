@@ -23,7 +23,22 @@ use App\Http\Controllers\Api\AddressController;
 
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::get(
+        'profile',
+        [AuthController::class, 'profile']
+    );
+
     Route::post('profile-update', [AuthController::class, 'updateProfile']);
+
+    Route::post(
+        'update-profile-image',
+        [AuthController::class, 'updateProfileImage']
+    );
+
+    Route::delete(
+        'delete-profile-image',
+        [AuthController::class, 'deleteProfileImage']
+    );
 
     Route::get('my-orders', [OrderController::class, 'myOrders']);
 
@@ -34,11 +49,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('addresses', AddressController::class);
 
     // PROTECTED APIs
-    Route::apiResource('banners', BannerController::class);
-
-    Route::apiResource('categories', CategoryController::class);
-
-    Route::apiResource('products', ProductController::class);
 
     Route::apiResource('coupons', CouponController::class);
 
@@ -51,5 +61,11 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('register', [AuthController::class, 'register']);
 
 Route::post('login', [AuthController::class, 'login']);
+
+Route::apiResource('banners', BannerController::class);
+
+Route::apiResource('categories', CategoryController::class);
+
+Route::apiResource('products', ProductController::class);
 
 Route::get('similar-products/{id}', [ProductController::class, 'similarProducts']);

@@ -39,7 +39,6 @@ class ProductController extends Controller
         $product->name = $request->name;
         $product->weight = $request->weight;
         $product->category_id = $request->category_id;
-        $product->productId = $request->productId;
         $product->delivery_time = $request->delivery_time;
         $product->shelf_life = $request->shelf_life;
         $product->stock_status = $request->stock_status;

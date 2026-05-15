@@ -33,6 +33,11 @@
             <i class="fas fa-ticket-alt"></i>
             <span>Coupons</span>
         </a>
+        
+        <a href="{{ route('orders.index') }}" class="sidebar-link {{ request()->routeIs('orders.*') ? 'active' : '' }}">
+            <i class="fas fa-shopping-cart"></i>
+            <span>Orders</span>
+        </a>
 
         <div class="dropdown">
             <a href="{{ route('users.index') }}" class="sidebar-link {{ request()->routeIs('users.*') ? 'active' : '' }}">

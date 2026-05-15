@@ -23,8 +23,13 @@
                             <input type="text" name="name" class="form-control" value="{{ $product->name }}" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Weight / Price Info</label>
-                            <input type="text" name="weight" class="form-control" value="{{ $product->weight }}" required>
+                            <label class="form-label fw-bold">Weight / Price Info (Multiple: 500g/50, 1kg/100)</label>
+                            @php
+                                $weightValue = is_array($product->weight) 
+                                    ? implode(', ', array_map(fn($item) => $item['weight'].'/'.$item['price'], $product->weight)) 
+                                    : $product->weight;
+                            @endphp
+                            <input type="text" name="weight" class="form-control" value="{{ $weightValue }}" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label fw-bold">Category</label>
@@ -34,10 +39,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Product ID</label>
-                            <input type="text" name="productId" class="form-control" value="{{ $product->productId }}">
-                        </div>
+                        
                     </div>
 
                     <div class="col-md-6">

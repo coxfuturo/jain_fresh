@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->string('phone')->unique();
             $table->string('gender')->nullable();
             $table->text('address')->nullable();
+            $table->string('image')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

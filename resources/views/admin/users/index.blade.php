@@ -32,7 +32,6 @@
                     </td>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->phone }}</td>
-                    <td class="small text-muted">{{ $user->created_at->format('M d, Y') }}</td>
                     <td class="pe-4 text-end">
                         <div class="d-flex justify-content-end gap-2">
                             <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-light rounded-circle shadow-sm">
