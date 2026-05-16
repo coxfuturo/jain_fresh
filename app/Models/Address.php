@@ -32,4 +32,8 @@ class Address extends Model
     {
         return $this->belongsTo(User::class);
     }
+     public function sector()
+    {
+        return $this->belongsTo(Sector::class);
+    }
 }
