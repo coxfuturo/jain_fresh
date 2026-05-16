@@ -15,13 +15,40 @@
         <div class="dropdown">
             <button class="btn btn-light rounded-circle position-relative shadow-sm" data-bs-toggle="dropdown">
                 <i class="far fa-bell"></i>
-                <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+                @if(($stats['pending_orders_count'] ?? 0) > 0)
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">
+                        {{ $stats['pending_orders_count'] }}
+                    </span>
+                @endif
             </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-3" style="width: 300px;">
-                <li class="mb-2"><h6 class="dropdown-header px-0 text-dark font-bold">Notifications</h6></li>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-3" style="width: 320px;">
+                <li class="mb-2 d-flex justify-content-between align-items-center">
+                    <h6 class="dropdown-header px-0 text-dark fw-bold mb-0">Notifications</h6>
+                    <span class="badge bg-primary-light text-primary small">{{ $stats['pending_orders_count'] ?? 0 }} New</span>
+                </li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item rounded-3 mb-1 py-2" href="#">New order received!</a></li>
-                <li><a class="dropdown-item rounded-3 mb-1 py-2" href="#">Stock alert: Apples</a></li>
+                @forelse($pending_notifications ?? [] as $notification)
+                    <li>
+                        <a class="dropdown-item rounded-3 mb-1 py-2 d-flex align-items-center gap-3" href="{{ route('orders.show', $notification->id) }}">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 35px; height: 35px; flex-shrink: 0;">
+                                <i class="fas fa-shopping-basket small"></i>
+                            </div>
+                            <div class="d-flex flex-column overflow-hidden">
+                                <span class="fw-bold small text-dark text-truncate">New Order #{{ $notification->id }}</span>
+                                <span class="text-muted extra-small">From {{ $notification->user->name ?? 'Guest' }}</span>
+                            </div>
+                        </a>
+                    </li>
+                @empty
+                    <li class="text-center py-3">
+                        <i class="fas fa-bell-slash text-muted opacity-25 mb-2 fa-2x"></i>
+                        <p class="text-muted small mb-0">No new notifications</p>
+                    </li>
+                @endforelse
+                @if(($stats['pending_orders_count'] ?? 0) > 0)
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-center small text-primary fw-bold" href="{{ route('orders.index') }}">View All Orders</a></li>
+                @endif
             </ul>
         </div>
 

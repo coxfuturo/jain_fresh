@@ -29,55 +29,7 @@
             min-height: 100vh;
         }
 
-        #sidebar {
-            min-width: 250px;
-            max-width: 250px;
-            background: #fcfcfc;
-            color: #000000;
-            transition: all 0.3s;
-        }
-
-        #sidebar.active {
-            margin-left: -250px;
-        }
-
-        #sidebar .sidebar-header {
-
-            padding: 20px;
-            background: #fafafa;
-        }
-
-
-        #sidebar ul.components {
-            padding: 20px 0;
-            border-bottom: 1px solid #343a40;
-        }
-
-        #sidebar ul p {
-            color: #fff;
-            padding: 10px;
-        }
-
-        #sidebar ul li a {
-            padding: 10px 20px;
-            font-size: 1.1em;
-            display: block;
-            color: #adb5bd;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        #sidebar ul li a:hover {
-            color: #fff;
-            background: #343a40;
-        }
-
-        #sidebar ul li.active > a {
-            color: #fff;
-            background: #0d6efd;
-            border-left: 4px solid #fff;
-        }
-</style
+    </style>
     @stack('styles')
 </head>
 <body>
@@ -86,6 +38,7 @@
         
         <!-- Sidebar -->
         @include('admin.layout.sidebar')
+        <div id="sidebarOverlay" class="d-none" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 998; backdrop-filter: blur(2px);"></div>
 
         <!-- Main Content -->
         <div id="content">
@@ -112,13 +65,37 @@
             const sidebarToggle = document.getElementById('sidebarToggle');
             const sidebar = document.getElementById('sidebar');
             const content = document.getElementById('content');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                content.classList.toggle('active');
+                
+                if (window.innerWidth <= 992) {
+                    overlay.classList.toggle('d-none');
+                }
+            }
 
             if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('active');
-                    content.classList.toggle('active');
+                sidebarToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleSidebar();
                 });
             }
+
+            if (overlay) {
+                overlay.addEventListener('click', toggleSidebar);
+            }
+
+            // Close sidebar on window resize if it's open on mobile
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 992) {
+                    overlay.classList.add('d-none');
+                } else if (sidebar.classList.contains('active')) {
+                    // Keep overlay if sidebar was toggled on mobile
+                    overlay.classList.remove('d-none');
+                }
+            });
         });
     </script>
 
