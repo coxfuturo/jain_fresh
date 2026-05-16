@@ -154,9 +154,36 @@
                     <td class="ps-4 fw-bold">#{{ $product->productId ?? $product->id }}</td>
                     <td>
                         <div class="d-flex align-items-center gap-2">
-                            <img src="{{ $product->image ? asset('storage/'.$product->image) : 'https://ui-avatars.com/api/?name='.$product->name }}" class="rounded-3" width="32" height="32" style="object-fit: cover;">
-                            <span class="small">{{ $product->name }}</span>
-                        </div>
+
+    @php
+
+        $firstImage = null;
+
+        if(!empty($product->image)){
+
+            $images = is_array($product->image)
+                    ? $product->image
+                    : json_decode($product->image, true);
+
+            $firstImage = $images[0] ?? null;
+        }
+
+    @endphp
+
+    <img src="{{ $firstImage
+            ? asset('storage/'.$firstImage)
+            : 'https://ui-avatars.com/api/?name='.$product->name }}"
+
+         class="rounded-3"
+         width="32"
+         height="32"
+         style="object-fit: cover;">
+
+    <span class="small">
+        {{ $product->name }}
+    </span>
+
+</div>
                     </td>
                     <td><span class="badge bg-light text-dark border rounded-pill">{{ $product->category->name ?? 'N/A' }}</span></td>
                     <td class="small">{{ $product->weight }}</td>
