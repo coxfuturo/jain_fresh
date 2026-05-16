@@ -22,7 +22,7 @@ class DashboardController extends Controller
 
         if ($filter == 'month') {
             $query->whereMonth('created_at', Carbon::now()->month)
-                  ->whereYear('created_at', Carbon::now()->year);
+                ->whereYear('created_at', Carbon::now()->year);
         }
 
         $stats = [

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\SectorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,7 @@ Route::get('/', function () {
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/login', [AuthController::class, 'login'])->name('admin.login.submit');
-     Route::get('/logout', [AuthController::class, 'logout'])->name('admin.logout');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('admin.logout');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -38,4 +39,6 @@ Route::prefix('admin')->group(function () {
     Route::resource('orders', OrderController::class);
 
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('admin.analytics');
+
+    Route::resource('sectors', SectorController::class);
 });
