@@ -16,7 +16,6 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
-                    <th>Joined</th>
                     <th class="pe-4 text-end">Actions</th>
                 </tr>
             </thead>

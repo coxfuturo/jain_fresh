@@ -5,52 +5,51 @@
 @section('content')
 
 <style>
-
-    .product-card{
-        border:none;
-        border-radius:20px;
-        overflow:hidden;
-        background:#fff;
+    .product-card {
+        border: none;
+        border-radius: 20px;
+        overflow: hidden;
+        background: #fff;
     }
 
     .form-control,
-    .form-select{
-        height:50px;
-        border-radius:12px;
-        border:1px solid #e5e7eb;
-        box-shadow:none !important;
+    .form-select {
+        height: 50px;
+        border-radius: 12px;
+        border: 1px solid #e5e7eb;
+        box-shadow: none !important;
     }
 
-    textarea.form-control{
-        height:auto;
+    textarea.form-control {
+        height: auto;
     }
 
     .form-control:focus,
-    .form-select:focus{
-        border-color:#0d6efd;
+    .form-select:focus {
+        border-color: #0d6efd;
     }
 
-    .preview-img{
-        width:90px;
-        height:90px;
-        object-fit:cover;
-        border-radius:14px;
-        border:1px solid #ddd;
-        margin:6px;
+    .preview-img {
+        width: 90px;
+        height: 90px;
+        object-fit: cover;
+        border-radius: 14px;
+        border: 1px solid #ddd;
+        margin: 6px;
     }
 
-    .upload-box{
-        border:2px dashed #d1d5db;
-        border-radius:16px;
-        padding:20px;
-        background:#f9fafb;
-        text-align:center;
+    .upload-box {
+        border: 2px dashed #d1d5db;
+        border-radius: 16px;
+        padding: 20px;
+        background: #f9fafb;
+        text-align: center;
     }
 
-    .save-btn{
-        height:52px;
-        border-radius:14px;
-        font-size:16px;
+    .save-btn {
+        height: 52px;
+        border-radius: 14px;
+        font-size: 16px;
     }
 
 </style>
@@ -61,8 +60,7 @@
 
         <div class="d-flex align-items-center gap-3 mb-4">
 
-            <a href="{{ route('products.index') }}"
-               class="btn btn-light rounded-circle shadow-sm">
+            <a href="{{ route('products.index') }}" class="btn btn-light rounded-circle shadow-sm">
 
                 <i class="fas fa-arrow-left text-muted"></i>
 
@@ -86,9 +84,7 @@
 
             <div class="card-body p-4 p-lg-5">
 
-                <form action="{{ route('products.update', $product->id) }}"
-                      method="POST"
-                      enctype="multipart/form-data">
+                <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
 
                     @csrf
                     @method('PUT')
@@ -104,38 +100,47 @@
                                     Product Name
                                 </label>
 
-                                <input type="text"
-                                       name="name"
-                                       class="form-control"
-                                       value="{{ $product->name }}"
-                                       required>
+                                <input type="text" name="name" class="form-control" value="{{ $product->name }}" required>
 
                             </div>
 
-                            <div class="mb-3">
+                            <div id="weight-price-wrapper">
 
                                 <label class="form-label fw-semibold">
                                     Weight / Price Info
                                 </label>
 
-                                @php
+                                @if(is_array($product->weight))
 
-                                    $weightValue = is_array($product->weight)
+                                @foreach($product->weight as $item)
 
-                                    ? implode(', ', array_map(fn($item) => $item['weight'].'/'.$item['price'], $product->weight))
+                                <div class="row mb-3 weight-price-item">
 
-                                    : $product->weight;
+                                    <div class="col-md-5">
+                                        <input type="text" name="weight[]" class="form-control" value="{{ $item['weight'] ?? '' }}" placeholder="e.g. 500g" required>
+                                    </div>
 
-                                @endphp
+                                    <div class="col-md-5">
+                                        <input type="text" name="price[]" class="form-control" value="{{ $item['price'] ?? '' }}" placeholder="e.g. 50" required>
+                                    </div>
 
-                                <input type="text"
-                                       name="weight"
-                                       class="form-control"
-                                       value="{{ $weightValue }}"
-                                       placeholder="500g/50,1kg/100"
-                                       required>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-danger remove-row">
+                                            Remove
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                @endforeach
+
+                                @endif
 
                             </div>
+
+                            <button type="button" class="btn btn-primary" id="add-more">
+                                Add More
+                            </button>
 
                             <div class="mb-3">
 
@@ -143,18 +148,15 @@
                                     Category
                                 </label>
 
-                                <select name="category_id"
-                                        class="form-select"
-                                        required>
+                                <select name="category_id" class="form-select" required>
 
                                     @foreach($categories as $category)
 
-                                        <option value="{{ $category->id }}"
-                                            {{ $product->category_id == $category->id ? 'selected' : '' }}>
+                                    <option value="{{ $category->id }}" {{ $product->category_id == $category->id ? 'selected' : '' }}>
 
-                                            {{ $category->name }}
+                                        {{ $category->name }}
 
-                                        </option>
+                                    </option>
 
                                     @endforeach
 
@@ -168,10 +170,7 @@
                                     Stock Status
                                 </label>
 
-                                <input type="text"
-                                       name="stock_status"
-                                       class="form-control"
-                                       value="{{ $product->stock_status }}">
+                                <input type="text" name="stock_status" class="form-control" value="{{ $product->stock_status }}">
 
                             </div>
 
@@ -194,12 +193,7 @@
                                         Select Multiple Images
                                     </p>
 
-                                    <input type="file"
-                                           name="image[]"
-                                           id="imageInput"
-                                           class="form-control"
-                                           accept="image/*"
-                                           multiple>
+                                    <input type="file" name="image[]" id="imageInput" class="form-control" accept="image/*" multiple>
 
                                 </div>
 
@@ -216,35 +210,32 @@
 
                                     @if(!empty($product->image))
 
-    @php
+                                    @php
 
-        $images = is_array($product->image)
-                ? $product->image
-                : json_decode($product->image, true);
+                                    $images = is_array($product->image)
+                                    ? $product->image
+                                    : json_decode($product->image, true);
 
-    @endphp
+                                    @endphp
 
-    @foreach($images as $image)
+                                    @foreach($images as $image)
 
-        <img src="{{ asset('storage/'.$image) }}"
-             class="preview-img">
+                                    <img src="{{ asset('storage/'.$image) }}" class="preview-img">
 
-    @endforeach
+                                    @endforeach
 
-@else
+                                    @else
 
-    <img src="https://ui-avatars.com/api/?name={{ $product->name }}"
-         class="preview-img">
+                                    <img src="https://ui-avatars.com/api/?name={{ $product->name }}" class="preview-img">
 
-@endif
+                                    @endif
 
                                 </div>
 
                             </div>
 
                             <!-- NEW PREVIEW -->
-                            <div id="preview"
-                                 class="d-flex flex-wrap">
+                            <div id="preview" class="d-flex flex-wrap">
                             </div>
 
                             <div class="mb-3 mt-3">
@@ -253,18 +244,15 @@
                                     Status
                                 </label>
 
-                                <select name="status"
-                                        class="form-select">
+                                <select name="status" class="form-select">
 
-                                    <option value="1"
-                                        {{ $product->status == 1 ? 'selected' : '' }}>
+                                    <option value="1" {{ $product->status == 1 ? 'selected' : '' }}>
 
                                         Active
 
                                     </option>
 
-                                    <option value="0"
-                                        {{ $product->status == 0 ? 'selected' : '' }}>
+                                    <option value="0" {{ $product->status == 0 ? 'selected' : '' }}>
 
                                         Inactive
 
@@ -285,9 +273,7 @@
                                     Nutrition Info
                                 </label>
 
-                                <textarea name="nutrition"
-                                          class="form-control"
-                                          rows="3">{{ $product->nutrition }}</textarea>
+                                <textarea name="nutrition" class="form-control" rows="3">{{ $product->nutrition }}</textarea>
 
                             </div>
 
@@ -297,9 +283,7 @@
                                     Storage Tips
                                 </label>
 
-                                <textarea name="storage_tips"
-                                          class="form-control"
-                                          rows="3">{{ $product->storage_tips }}</textarea>
+                                <textarea name="storage_tips" class="form-control" rows="3">{{ $product->storage_tips }}</textarea>
 
                             </div>
 
@@ -309,8 +293,7 @@
 
                     <div class="mt-4">
 
-                        <button type="submit"
-                                class="btn btn-primary w-100 save-btn fw-bold shadow-sm">
+                        <button type="submit" class="btn btn-primary w-100 save-btn fw-bold shadow-sm">
 
                             <i class="fas fa-save me-2"></i>
 
@@ -331,12 +314,11 @@
 </div>
 
 <script>
-
     const imageInput = document.getElementById('imageInput');
 
     const preview = document.getElementById('preview');
 
-    imageInput.addEventListener('change', function(){
+    imageInput.addEventListener('change', function() {
 
         preview.innerHTML = '';
 
@@ -344,7 +326,7 @@
 
             const reader = new FileReader();
 
-            reader.onload = function(e){
+            reader.onload = function(e) {
 
                 const img = document.createElement('img');
 
@@ -360,6 +342,50 @@
 
         });
 
+    });
+
+    document.getElementById('add-more').addEventListener('click', function() {
+
+        let wrapper = document.getElementById('weight-price-wrapper');
+
+        let html = `
+        <div class="row mb-3 weight-price-item">
+
+            <div class="col-md-5">
+                <input type="text"
+                    name="weight[]"
+                    class="form-control"
+                    placeholder="e.g. 1kg"
+                    required>
+            </div>
+
+            <div class="col-md-5">
+                <input type="text"
+                    name="price[]"
+                    class="form-control"
+                    placeholder="e.g. 100"
+                    required>
+            </div>
+
+            <div class="col-md-2">
+                <button type="button"
+                        class="btn btn-danger remove-row">
+                    Remove
+                </button>
+            </div>
+
+        </div>
+    `;
+
+        wrapper.insertAdjacentHTML('beforeend', html);
+    });
+
+    document.addEventListener('click', function(e) {
+
+        if (e.target.classList.contains('remove-row')) {
+
+            e.target.closest('.weight-price-item').remove();
+        }
     });
 
 </script>

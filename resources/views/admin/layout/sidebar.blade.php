@@ -1,9 +1,14 @@
 <nav id="sidebar">
-    <div class="sidebar-header">
-        <div class="sidebar-logo-icon">
-            <img src= {{asset('logoImg/logo.png') }} alt="" height="50" width="50">
+    <div class="sidebar-header d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-2">
+            <div class="sidebar-logo-icon">
+                <img src="{{ asset('logoImg/logo.png') }}" alt="" height="40" width="40">
+            </div>
+            <h5 class="mb-0 fw-bold">Zain Fresh</h5>
         </div>
-        <h5 class="mb-0 fw-bold">Zain Fresh</h5>
+        <button class="btn d-lg-none text-muted p-0" onclick="document.getElementById('sidebarToggle').click()">
+            <i class="fas fa-times fs-4"></i>
+        </button>
     </div>
 
     <div class="sidebar-nav">

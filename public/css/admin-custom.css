@@ -19,12 +19,17 @@
     --card-shadow: 0 0 2px 0 rgba(145, 158, 171, 0.2), 0 12px 24px -4px rgba(145, 158, 171, 0.12);
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     background-color: var(--bg-body);
     color: var(--dark);
     font-size: 0.9375rem;
     overflow-x: hidden;
+    width: 100%;
 }
 
 /* Layout Structure */
@@ -227,9 +232,19 @@ body {
     }
     #content {
         margin-left: 0;
+        width: 100% !important;
     }
     .search-bar {
         display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    #content .container-fluid {
+        padding: 1rem !important;
+    }
+    .card-stats {
+        padding: 16px;
     }
 }
 

@@ -20,7 +20,7 @@ return new class extends Migration {
 
             $table->string('image')->nullable();
 
-            $table->string('weight');
+            $table->json('weight')->nullable();
 
             // PRODUCT INFORMATION
             $table->unsignedBigInteger('category_id')->nullable();

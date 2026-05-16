@@ -65,7 +65,8 @@ class ProductController extends Controller
 {
     $request->validate([
         'name' => 'required|string|max:255',
-        'weight' => 'required|string|max:255',
+        'weight' => 'required|array',
+        'weight.*' => 'required|string|max:255',
         'category_id' => 'required|exists:categories,id',
         'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
@@ -73,13 +74,36 @@ class ProductController extends Controller
     $product = new Product();
 
     $product->name = $request->name;
-    $product->weight = $request->weight;
+    
+    //price or weight
+    $weights = [];
+
+    foreach ($request->weight as $key => $weight) {
+
+        $weights[] = [
+            'weight' => $weight,
+            'price' => $request->price[$key]
+        ];
+    }
+
+    $product->weight = $weights;
     $product->category_id = $request->category_id;
     $product->delivery_time = $request->delivery_time;
     $product->shelf_life = $request->shelf_life;
     $product->stock_status = $request->stock_status;
     $product->nutrition = $request->nutrition;
     $product->storage_tips = $request->storage_tips;
+
+    //price or weight
+    $weights = [];
+
+    foreach ($request->weight as $key => $weight) {
+
+        $weights[] = [
+            'weight' => $weight,
+            'price' => $request->price[$key]
+        ];
+    }
 
     // Multiple Images
     $images = [];

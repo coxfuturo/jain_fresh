@@ -33,10 +33,12 @@ class DashboardController extends Controller
             'total_coupons' => Coupon::count(),
             'total_orders' => $query->count(),
             'total_revenue' => $query->sum('total_amount'),
+            'pending_orders_count' => Order::where('order_status', 'Pending')->count(),
         ];
 
         $recent_products = Product::with('category')->latest()->take(5)->get();
         $recent_orders = (clone $query)->with('user')->latest()->take(5)->get();
+        $pending_notifications = Order::with('user')->where('order_status', 'Pending')->latest()->take(5)->get();
 
         // Dynamic Revenue Chart Data
         $monthly_revenue = Order::select(
@@ -60,6 +62,6 @@ class DashboardController extends Controller
             'data' => $chart_data
         ];
 
-        return view('admin.dashboard.dashboard', compact('stats', 'recent_products', 'recent_orders', 'revenue_data', 'filter'));
+        return view('admin.dashboard.dashboard', compact('stats', 'recent_products', 'recent_orders', 'revenue_data', 'filter', 'pending_notifications'));
     }
 }
