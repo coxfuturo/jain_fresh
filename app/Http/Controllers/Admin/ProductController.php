@@ -22,201 +22,141 @@ class ProductController extends Controller
         return view('admin.products.create', compact('categories'));
     }
 
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
 
+            'weight' => 'required|array',
+            'weight.*' => 'required|string|max:255',
+
+            'price' => 'required|array',
+            'price.*' => 'required',
+
+            'category_id' => 'required|exists:categories,id',
+
+            'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $weights = [];
+
+        foreach ($request->weight as $key => $weight) {
+
+            $weights[] = [
+                'weight' => $weight,
+                'price' => $request->price[$key]
+            ];
+        }
+
+        // Multiple Images
+        $images = [];
+
+        if ($request->hasFile('image')) {
+
+            foreach ($request->file('image') as $file) {
+
+                $images[] = $file->store('products', 'public');
+            }
+        }
+
+        $product = new Product();
+
+        $product->name = $request->name;
+        $product->weight = $weights;
+        $product->image = $images;
+
+        $product->category_id = $request->category_id;
+        $product->delivery_time = $request->delivery_time;
+        $product->shelf_life = $request->shelf_life;
+        $product->stock_status = $request->stock_status;
+        $product->nutrition = $request->nutrition;
+        $product->storage_tips = $request->storage_tips;
+
+        $product->save();
+
+        return redirect()->route('products.index')
+            ->with('success', 'Product created successfully.');
+    }
 
     public function edit(Product $product)
     {
         $categories = Category::all();
         return view('admin.products.edit', compact('product', 'categories'));
     }
-    // public function store(Request $request)
-    // {
-    //     $request->validate([
-    //         'name' => 'required|string|max:255',
-    //         'weight' => 'required|string|max:255',
-    //         'category_id' => 'required|exists:categories,id',
-    //         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    //         'productId' => 'nullable|string|max:255',
-    //         'delivery_time' => 'nullable|string',
-    //         'shelf_life' => 'nullable|string',
-    //         'stock_status' => 'nullable|string',
-    //     ]);
-
-    //     $product = new Product();
-    //     $product->name = $request->name;
-    //     $product->weight = $request->weight;
-    //     $product->category_id = $request->category_id;
-    //     $product->delivery_time = $request->delivery_time;
-    //     $product->shelf_life = $request->shelf_life;
-    //     $product->stock_status = $request->stock_status;
-    //     $product->nutrition = $request->nutrition;
-    //     $product->storage_tips = $request->storage_tips;
-
-    //     if ($request->hasFile('image')) {
-    //         $product->image = $request->file('image')->store('products', 'public');
-    //     }
-
-    //     $product->save();
-
-    //     return redirect()->route('products.index')->with('success', 'Product created successfully.');
-    // }
-
-    public function store(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'weight' => 'required|array',
-        'weight.*' => 'required|string|max:255',
-        'category_id' => 'required|exists:categories,id',
-        'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
-
-    $product = new Product();
-
-    $product->name = $request->name;
-    
-    //price or weight
-    $weights = [];
-
-    foreach ($request->weight as $key => $weight) {
-
-        $weights[] = [
-            'weight' => $weight,
-            'price' => $request->price[$key]
-        ];
-    }
-
-    $product->weight = $weights;
-    $product->category_id = $request->category_id;
-    $product->delivery_time = $request->delivery_time;
-    $product->shelf_life = $request->shelf_life;
-    $product->stock_status = $request->stock_status;
-    $product->nutrition = $request->nutrition;
-    $product->storage_tips = $request->storage_tips;
-
-    //price or weight
-    $weights = [];
-
-    foreach ($request->weight as $key => $weight) {
-
-        $weights[] = [
-            'weight' => $weight,
-            'price' => $request->price[$key]
-        ];
-    }
-
-    // Multiple Images
-    $images = [];
-
-    if ($request->hasFile('image')) {
-
-        foreach ($request->file('image') as $file) {
-
-            $images[] = $file->store('products', 'public');
-        }
-    }
-
-    $product->image = $images;
-
-    $product->save();
-
-    return redirect()->route('products.index')
-            ->with('success', 'Product created successfully.');
-}
-
-    // public function update(Request $request, Product $product)
-    // {
-    //     $request->validate([
-    //         'name' => 'required|string|max:255',
-    //         'weight' => 'required|string|max:255',
-    //         'category_id' => 'required|exists:categories,id',
-    //         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    //     ]);
-
-    //     $product->name = $request->name;
-    //     $product->weight = $request->weight;
-    //     $product->category_id = $request->category_id;
-    //     $product->productId = $request->productId;
-    //     $product->delivery_time = $request->delivery_time;
-    //     $product->shelf_life = $request->shelf_life;
-    //     $product->stock_status = $request->stock_status;
-    //     $product->status = $request->status;
-    //     $product->nutrition = $request->nutrition;
-    //     $product->storage_tips = $request->storage_tips;
-
-    //     if ($request->hasFile('image')) {
-    //         if ($product->image) {
-    //             Storage::disk('public')->delete($product->image);
-    //         }
-    //         $product->image = $request->file('image')->store('products', 'public');
-    //     }
-
-    //     $product->save();
-
-    //     return redirect()->route('products.index')->with('success', 'Product updated successfully.');
-    // }
 
     public function update(Request $request, Product $product)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'weight' => 'required|string|max:255',
-        'category_id' => 'required|exists:categories,id',
-        'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
 
-    $product->name = $request->name;
-    $product->weight = $request->weight;
-    $product->category_id = $request->category_id;
-    $product->productId = $request->productId;
-    $product->delivery_time = $request->delivery_time;
-    $product->shelf_life = $request->shelf_life;
-    $product->stock_status = $request->stock_status;
-    $product->status = $request->status;
-    $product->nutrition = $request->nutrition;
-    $product->storage_tips = $request->storage_tips;
+            'weight' => 'required|array',
+            'weight.*' => 'required|string|max:255',
 
-    // Multiple Images Update
-    if ($request->hasFile('image')) {
+            'price' => 'required|array',
+            'price.*' => 'required',
 
-        // Old Images Delete
-        if ($product->image) {
+            'category_id' => 'required|exists:categories,id',
 
-            foreach ($product->image as $oldImage) {
+            'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
 
-                Storage::disk('public')->delete($oldImage);
+        // Weight + Price
+        $weights = [];
+
+        foreach ($request->weight as $key => $weight) {
+
+            $weights[] = [
+                'weight' => $weight,
+                'price' => $request->price[$key]
+            ];
+        }
+
+        $product->name = $request->name;
+        $product->weight = $weights;
+
+        $product->category_id = $request->category_id;
+        $product->productId = $request->productId;
+        $product->delivery_time = $request->delivery_time;
+        $product->shelf_life = $request->shelf_life;
+        $product->stock_status = $request->stock_status;
+        $product->status = $request->status;
+        $product->nutrition = $request->nutrition;
+        $product->storage_tips = $request->storage_tips;
+
+        // Multiple Images
+        if ($request->hasFile('image')) {
+
+            // old images delete
+            if ($product->image && is_array($product->image)) {
+
+                foreach ($product->image as $img) {
+
+                    Storage::disk('public')->delete($img);
+                }
             }
+
+            $images = [];
+
+            foreach ($request->file('image') as $file) {
+
+                $images[] = $file->store('products', 'public');
+            }
+
+            $product->image = $images;
         }
 
-        $images = [];
+        $product->save();
 
-        foreach ($request->file('image') as $file) {
-
-            $images[] = $file->store('products', 'public');
-        }
-
-        $product->image = $images;
-    }
-
-    $product->save();
-
-    return redirect()->route('products.index')
+        return redirect()->route('products.index')
             ->with('success', 'Product updated successfully.');
-}
+    }
 
     public function destroy(Product $product)
-{
-    if ($product->image) {
-
-        foreach ($product->image as $image) {
-
-            Storage::disk('public')->delete($image);
+    {
+        if ($product->image) {
+            Storage::disk('public')->delete($product->image);
         }
+        $product->delete();
+        return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
     }
-
-    $product->delete();
-
-    return redirect()->route('products.index')
-            ->with('success', 'Product deleted successfully.');
-}
 }

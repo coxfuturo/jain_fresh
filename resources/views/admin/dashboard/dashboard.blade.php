@@ -186,7 +186,23 @@
 </div>
                     </td>
                     <td><span class="badge bg-light text-dark border rounded-pill">{{ $product->category->name ?? 'N/A' }}</span></td>
-                    <td class="small">{{ $product->weight }}</td>
+                    <td class="small">
+
+                        @if(is_array($product->weight))
+
+                            @foreach($product->weight as $item)
+
+                                <div>
+                                    {{ $item['weight'] ?? '' }}
+                                    -
+                                    ₹{{ $item['price'] ?? '' }}
+                                </div>
+
+                            @endforeach
+
+                        @endif
+
+</td>
                     <td>
                         @if($product->status)
                             <span class="badge badge-soft-success rounded-pill">Active</span>

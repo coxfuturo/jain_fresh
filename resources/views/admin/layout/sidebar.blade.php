@@ -29,6 +29,11 @@
             <span>Categories</span>
         </a>
 
+        <a href="{{ route('sectors.index') }}" class="sidebar-link {{ request()->routeIs('sectors.*') ? 'active' : '' }}">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>Sectors</span>
+        </a>
+
         <a href="{{ route('products.index') }}" class="sidebar-link {{ request()->routeIs('products.*') ? 'active' : '' }}">
             <i class="fas fa-box"></i>
             <span>Products</span>

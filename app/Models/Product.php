@@ -27,15 +27,13 @@ class Product extends Model
         'status'
     ];
 
+    protected $casts = [
+        'weight' => 'array',
+        'image' => 'array'
+    ];
+
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
-
-   protected $casts = [
-
-    'image' => 'array',
-
-    'weight' => 'array'
-];
 }

@@ -29,27 +29,68 @@
         border-color: #0d6efd;
     }
 
+    .upload-box {
+        border: 2px dashed #d1d5db;
+        border-radius: 16px;
+        padding: 25px;
+        text-align: center;
+        background: #f9fafb;
+        transition: 0.3s;
+    }
+
+    .upload-box:hover {
+        border-color: #0d6efd;
+        background: #f3f7ff;
+    }
+
     .preview-img {
         width: 90px;
         height: 90px;
         object-fit: cover;
-        border-radius: 14px;
+        border-radius: 12px;
+        margin: 8px;
         border: 1px solid #ddd;
-        margin: 6px;
-    }
-
-    .upload-box {
-        border: 2px dashed #d1d5db;
-        border-radius: 16px;
-        padding: 20px;
-        background: #f9fafb;
-        text-align: center;
     }
 
     .save-btn {
         height: 52px;
         border-radius: 14px;
         font-size: 16px;
+    }
+
+    .btn-add-more {
+        background: #f0f7ff;
+        color: #0d6efd;
+        border: 1px dashed #0d6efd;
+        border-radius: 12px;
+        padding: 12px;
+        font-weight: 600;
+        transition: 0.3s;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .btn-add-more:hover {
+        background: #0d6efd;
+        color: #fff;
+    }
+
+    .remove-row {
+        height: 50px;
+        width: 100%;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff5f5;
+        color: #ff5630;
+        border: 1px solid #ffe2e2;
+        transition: 0.3s;
+    }
+
+    .remove-row:hover {
+        background: #ff5630;
+        color: #fff;
     }
 
 </style>
@@ -125,8 +166,8 @@
                                     </div>
 
                                     <div class="col-md-2">
-                                        <button type="button" class="btn btn-danger remove-row">
-                                            Remove
+                                        <button type="button" class="btn remove-row" title="Remove">
+                                            <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </div>
 
@@ -138,9 +179,11 @@
 
                             </div>
 
-                            <button type="button" class="btn btn-primary" id="add-more">
-                                Add More
-                            </button>
+                            <div class="mt-2 mb-4">
+                                <button type="button" class="btn btn-add-more w-100" id="add-more">
+                                    <i class="fas fa-plus-circle me-2"></i> Add More Weight/Price Variant
+                                </button>
+                            </div>
 
                             <div class="mb-3">
 
@@ -369,8 +412,8 @@
 
             <div class="col-md-2">
                 <button type="button"
-                        class="btn btn-danger remove-row">
-                    Remove
+                        class="btn remove-row" title="Remove">
+                    <i class="fas fa-trash-alt"></i>
                 </button>
             </div>
 
